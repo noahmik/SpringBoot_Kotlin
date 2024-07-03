@@ -27,5 +27,8 @@ class MyController(
         )
     }
 
+    @GetMapping("/my-models")
+    fun listMyModels(): List<MyModel>
+            = myModelService.findAll()
 
 }
