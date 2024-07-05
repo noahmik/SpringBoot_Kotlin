@@ -31,4 +31,16 @@ class MyController(
     fun listMyModels(): List<MyModel>
             = myModelService.findAll()
 
+    @PatchMapping("/my-model/{id}")
+    fun updateMyModel(
+        @PathVariable("id") id: Long,
+        @RequestBody request: SaveMyModelRequest
+    ): MyModel {
+        val myModel: MyModel = myModelService.findById(id)
+            ?: throw ChangeSetPersister.NotFoundException()
+
+        myModel.name = request.name
+
+        return myModelService.save(myModel)
+    }
 }
