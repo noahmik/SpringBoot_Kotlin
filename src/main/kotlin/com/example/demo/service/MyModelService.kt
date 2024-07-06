@@ -13,5 +13,5 @@ class MyModelService(val myModelRepository: MyModelRepository) {
     = myModelRepository.findAll()
 
     fun findById(id: Long): MyModel?
-    = myModelRepository.findById(id).getOrNull();
+    = myModelRepository.findById(id).getOrNull()
 }
