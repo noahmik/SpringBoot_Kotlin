@@ -3,6 +3,7 @@ package com.example.demo.service
 import com.example.demo.dto.EncodingModelRequest
 import com.example.demo.model.EncodingModel
 import com.example.demo.model.MyModel
+import com.example.demo.repository.EncodingRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
@@ -23,4 +24,9 @@ class EncodingService(@Autowired val encodingRepository: EncodingRepository) {
 
     fun findAll(): List<EncodingModel>
             = encodingRepository.findAll()
+
+    fun findOriginalUrl(encoded: String): String? {
+        return encodingRepository.findByEncodedUrl(encoded)?.originalUrl
+    }
+
 }

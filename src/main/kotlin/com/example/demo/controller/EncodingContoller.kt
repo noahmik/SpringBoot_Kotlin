@@ -6,10 +6,10 @@ import com.example.demo.model.EncodingModel
 import com.example.demo.model.MyModel
 import com.example.demo.service.EncodingService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import java.net.URI
 
 @RestController
 class EncodingController(@Autowired val encodingService: EncodingService) {
@@ -28,4 +28,14 @@ class EncodingController(@Autowired val encodingService: EncodingService) {
     @GetMapping("/api/short-urls")
     fun GetEncoding(): List<EncodingModel>
             = encodingService.findAll()
+
+    @GetMapping("/short-url/{encoded}")
+    fun getOriginalUrl(@PathVariable encoded: String): ResponseEntity<Void> {
+        val originalUrl = encodingService.findOriginalUrl(encoded)
+        return if (originalUrl != null) {
+            ResponseEntity.status(HttpStatus.FOUND).location(URI(originalUrl)).build()
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        }
+    }
 }
